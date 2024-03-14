@@ -1,15 +1,16 @@
+import './style.css'
 import { useState } from "react";
 
 function App() {
   const [num, setNum] = useState(1)
-  const [count, setCount] = useState(1)
+  const [count, setCount] = useState(0)
 
-  function handleDecrement() {
-    setNum(num - 1)
+  function handleChange(e) {
+    setCount(+e.target.value)
   }
 
-  function handleIncrement() {
-    setNum(num + 1)
+  function handleIncrementDecrement(e) {
+    setNum(+e.target.value)
   }
 
   function handleCountDecrement() {
@@ -20,22 +21,24 @@ function App() {
     setCount(count + num)
   }
 
+  function handleClick() {
+    setNum(1)
+    setCount(0)
+  }
+
   const date = new Date()
   date.setDate(date.getDate() + count)
   return (
-    <>
-    <div>
+    <div className='App'>
       <div>
-        <button onClick={handleDecrement}>-</button> 
+        <input type="range" min='1' max='10' value={num} onChange={handleIncrementDecrement}/> 
         <span>Step: {num}</span>
-        <button onClick={handleIncrement}>+</button>
      </div>
      <div>
         <button onClick={handleCountDecrement}>-</button> 
-        <span>Count: {count}</span>
+        <input type="text" value={count} onChange={handleChange}/>
         <button onClick={handleCountIncrement}>+</button>
      </div>
-    </div>
 
     <p>
       {count === 0
@@ -46,7 +49,12 @@ function App() {
       <span>{date.toDateString()}</span>
     </p>
 
-    </>
+    {count !== 0 || num !== 1 ? (
+    <div>
+      <button onClick={handleClick}>Reset</button> 
+    </div>
+    ) : null } 
+  </div>
   );
 }
 
